@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan | Beauti & Ari</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#1e88e5;
+  --secondary:#e3f2fd;
+  --accent:#2e7d32;
+  --text:#0d2b3e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#e3f2fd,#e8f5e9);
+  color:var(--text);
+  overflow-x:hidden;
+}
+section{padding:60px 20px}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;
+  color:var(--accent);
+  text-align:center;
+  margin-bottom:30px;
+}
+
+/* OPENING */
+.opening{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,var(--secondary),#fff);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.opening h1{font-size:2.8rem;color:var(--primary)}
+.opening button{
+  margin-top:30px;
+  padding:14px 36px;
+  border-radius:50px;
+  border:none;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+/* CARD */
+.card{
+  max-width:auto;
+  margin:auto;
+  background:rgba(255,255,255,.9);
+  border-radius:30px;
+  padding:40px 30px;
+  text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.15);
+}
+.names{
+  font-size:2rem;
+  font-weight:700;
+  color:var(--primary);
+  margin:15px 0;
+}
+
+/* FLIP COUNTDOWN */
+.countdown{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.flip{
+  width:70px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+.flip .top,.flip .bottom{
+  height:40px;
+  line-height:40px;
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--primary);
+  text-align:center;
+}
+.flip .bottom{border-top:1px solid #ddd}
+.label{
+  font-size:.7rem;
+  margin-top:4px;
+  text-align:center;
+}
+.flip.animate .top{animation:flipTop .4s}
+.flip.animate .bottom{animation:flipBottom .4s}
+@keyframes flipTop{to{transform:rotateX(-90deg)}}
+@keyframes flipBottom{from{transform:rotateX(90deg)}}
+
+/* GALLERY */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:15px;
+  max-width:900px;
+  margin:auto;
+}
+.gallery img{
+  width:100%;
+  border-radius:20px;
+}
+
+/* BANK */
+.bank{
+  max-width:420px;
+  margin:auto;
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  text-align:center;
+}
+.bank-item{
+  margin:15px 0;
+  padding:15px;
+  border-radius:15px;
+  background:#e3f2fd;
+}
+
+/* GUESTBOOK */
+form{
+  max-width:420px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+input,textarea{
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #ccc;
+}
+button.submit{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:30px;
+}
+.messages{
+  max-width:600px;
+  margin:30px auto 0;
+}
+.msg{
+  background:#fff;
+  padding:12px;
+  border-radius:15px;
+  margin-bottom:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* MUSIC */
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="opening" id="opening">
+  <h1>Ari & Beauti</h1>
+  <p>Undangan Pernikahan</p>
+  <button onclick="openInvitation()">Buka Undangan</button>
+</div>
+
+<section>
+<div class="card">
+  <p>Menuju Hari Bahagia</p>
+  <div class="names">Ari Agung Satria, S.Pd., Gr. <br> & <br>Beauti Zahra Tu Nisa</div>
+  <div id="eventInfo"></div>
+  <div id="nowTime" style="font-size:.85rem;opacity:.7;margin-top:6px"></div>
+
+  <div id="countdown" class="countdown">
+    <div>
+      <div class="flip"><div class="top">0</div><div class="bottom">0</div></div>
+      <div class="label">HARI</div>
+    </div>
+    <div>
+      <div class="flip"><div class="top">0</div><div class="bottom">0</div></div>
+      <div class="label">JAM</div>
+    </div>
+    <div>
+      <div class="flip"><div class="top">0</div><div class="bottom">0</div></div>
+      <div class="label">MENIT</div>
+    </div>
+    <div>
+      <div class="flip"><div class="top">0</div><div class="bottom">0</div></div>
+      <div class="label">DETIK</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<h2>📍 Lokasi Akad & Resepsi</h2>
+<p style="text-align:center">
+Kediaman Mempelai Wanita<br>
+<b>Desa Kapuran, Pasar Madang, Tanggamus</b>
+</p>
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d446.32811873993114!2d104.62261783370916!3d-5.502936650696738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1767721308646!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></section>
+
+<section>
+  <h2>🕌 Ayat Al-Qur’an & Doa Pernikahan</h2>
+  <div style="max-width:800px;margin:auto;background:rgba(255,255,255,.9);border-radius:25px;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,.15);text-align:center;line-height:1.9">
+    <p style="font-size:1.6rem;font-family:'Playfair Display',serif;margin-bottom:20px;direction:rtl">
+      وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا
+      لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً
+    </p>
+    <p style="margin-bottom:20px;font-style:italic">
+      “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.”
+      <br><b>(QS. Ar-Rum: 21)</b>
+    </p>
+    <hr style="margin:25px 0;border:none;border-top:1px solid #ddd">
+    <p>
+      <b>Doa Pernikahan</b><br><br>
+      بَارَكَ اللّٰهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+      <br><br>
+      <i>“Semoga Allah memberkahimu di waktu bahagia dan memberkahimu di waktu susah, serta mengumpulkan kalian berdua dalam kebaikan.”</i>
+    </p>
+  </div>
+</section>
+
+<section>
+<h2>📸 Galeri Foto</h2>
+<div class="gallery">
+  <img src="foto1.jpg">
+  <img src="foto2.jpg">
+  <img src="foto3.jpg">
+</div>
+</section>
+
+<section>
+<h2>💝 Kirim Hadiah</h2>
+<div class="bank">
+  <div class="bank-item">
+    <b>Bank BRI</b><br>
+    577401028366531<br>
+    a.n Ari Agung Satria
+  </div>
+  <div class="bank-item">
+    <b>Bank BSI</b><br>
+    7339022253<br>
+    a.n Beauti Zahra Tu Nisa
+  </div>
+</div>
+</section>
+
+<section>
+<h2>💬 Buku Tamu</h2>
+<form id="guestForm">
+  <input id="guestName" placeholder="Nama Lengkap" required>
+  <textarea id="guestMsg" placeholder="Ucapan & Doa" required></textarea>
+  <button class="submit">Kirim</button>
+</form>
+<div class="messages" id="messages"></div>
+</section>
+
+<audio id="music" loop>
+  <source src="music.mp3">
+</audio>
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
+
+<script>
+/* ELEMENTS */
+const opening = document.getElementById('opening');
+const music = document.getElementById('music');
+const eventInfo = document.getElementById('eventInfo');
+const nowTime = document.getElementById('nowTime');
+const flips = document.querySelectorAll('.flip');
+const form = document.getElementById('guestForm');
+const messages = document.getElementById('messages');
+
+/* EVENT DATE */
+const eventDate = new Date('2026-06-08T09:00:00');
+
+/* EVENT INFO */
+const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+eventInfo.innerHTML = `
+<b>${hari[eventDate.getDay()]},
+${eventDate.getDate()} ${bulan[eventDate.getMonth()]} ${eventDate.getFullYear()}</b><br>
+Pukul ${eventDate.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})} WIB
+`;
+
+/* OPEN */
+function openInvitation(){
+  opening.style.display='none';
+  music.play();
+}
+
+/* MUSIC */
+function toggleMusic(){
+  music.paused ? music.play() : music.pause();
+}
+
+/* FLIP */
+function flip(el,val){
+  const top = el.querySelector('.top');
+  const bottom = el.querySelector('.bottom');
+  if(top.innerText == val) return;
+  top.innerText = bottom.innerText = val;
+  el.classList.remove('animate');
+  void el.offsetWidth;
+  el.classList.add('animate');
+}
+
+/* TIMER */
+setInterval(()=>{
+  const now = new Date();
+  nowTime.innerText = `Sekarang: ${now.toLocaleString('id-ID')}`;
+
+  let diff = eventDate - now;
+  if(diff <= 0) return;
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor(diff % 86400000 / 3600000);
+  const m = Math.floor(diff % 3600000 / 60000);
+  const s = Math.floor(diff % 60000 / 1000);
+
+  [d,h,m,s].forEach((v,i)=>flip(flips[i],v));
+},1000);
+
+/* GUESTBOOK */
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const div=document.createElement('div');
+  div.className='msg';
+  div.innerHTML=`<b>${guestName.value}</b><br>${guestMsg.value}`;
+  messages.prepend(div);
+  form.reset();
+});
+</script>
+
+</body>
+</html>
